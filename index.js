@@ -7,20 +7,25 @@ const { dbConnection } = require('./database/config');
 const app = express();
 
 //Configurar cors
-app.use(cors())
+app.use(cors());
 
+//middleware lectura y parseo del body
+//los middleware son funciones que se ejecutan antes de llegar de otra
+app.use(express.json());
 
 //base de datos
-dbConnection()
+dbConnection();
 
 //rutas
-app.get('/', (req, res) => {
-    res.json({
-        ok: true,
-        msg: 'Hola Mundo'
+app.use('/api/usuarios', require('./routes/usuarios'));
+app.use('/api/login', require('./routes/auth'));
+// app.get('/', (req, res) => {
+//     res.json({
+//         ok: true,
+//         msg: 'Hola Mundo'
 
-    })
-})
+//     })
+// })
 
 //para correr el servidor de express
 app.listen(process.env.PORT, () => {
