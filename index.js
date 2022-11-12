@@ -19,6 +19,10 @@ dbConnection();
 //rutas
 app.use('/api/usuarios', require('./routes/usuarios'));
 app.use('/api/login', require('./routes/auth'));
+app.use('/api/hospital', require('./routes/hospital.router'));
+app.use('/api/medicos', require('./routes/medicos.router'));
+app.use('/api/todo', require('./routes/busqueda.router'));
+app.use('/api/upload', require('./routes/upload.router'));
 // app.get('/', (req, res) => {
 //     res.json({
 //         ok: true,
