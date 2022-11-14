@@ -9,6 +9,8 @@ const app = express();
 //Configurar cors
 app.use(cors());
 
+//carpeta publica 
+app.use(express.static('public'));
 //middleware lectura y parseo del body
 //los middleware son funciones que se ejecutan antes de llegar de otra
 app.use(express.json());
