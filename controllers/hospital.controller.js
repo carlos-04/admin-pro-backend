@@ -50,14 +50,34 @@ const createHospitales = async(req, res = response) => {
 
 }
 
-const updateHospitales = (req, res = response) => {
-
+const updateHospitales = async(req, res = response) => {
+    //obteniedo el id
+    const id = req.params.id;
+    //obteniendo el id del usuario
+    const uid = req.id;
     try {
+        const hospitalDB = await HospitalModel.findById(id);
 
-        return res.status(200).json({
+        if (!hospitalDB) {
+            res.status(404).json({
+                ok: false,
+                msg: "No existe un hospital por ese id"
+            })
+        }
+
+        //actualizar desde la BD
+        const cambiosHospital = {
+            ...req.body,
+            usuario: uid
+        }
+        console.log("loque me trae", req.body)
+        const hospitalActualizado = await HospitalModel.findByIdAndUpdate(id, cambiosHospital, { new: true });
+        res.json({
+
             ok: true,
-            msg: "Actualizar Hospitales"
+            hospital: hospitalActualizado
         })
+
 
     } catch (error) {
         console.log(error)
@@ -69,13 +89,25 @@ const updateHospitales = (req, res = response) => {
 
 }
 
-const deleteHospitales = (req, res = response) => {
+const deleteHospitales = async(req, res = response) => {
+    //obteniedo el id
+    const id = req.params.id;
 
     try {
+        const hospitalDB = await HospitalModel.findById(id);
+        if (!hospitalDB) {
+            res.status(404).json({
+                ok: false,
+                msg: "No existe un hospital por ese id"
+            })
+        }
+
+        await HospitalModel.findByIdAndDelete(id);
 
         return res.status(200).json({
             ok: true,
-            msg: "Eliminar Hospitales"
+            msg: "Hospital Eliminado"
+
         })
 
     } catch (error) {
